@@ -17,6 +17,33 @@ h1 {
     color: #0073e6;
 }
 
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.search-button {
+    background-color: #0073e6;
+    border: none;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-button img {
+    width: 20px;
+    height: 20px;
+}
+
 .products {
     display: flex;
     flex-wrap: wrap;
@@ -44,12 +71,6 @@ h1 {
     max-width: 100%;
     height: auto;
     margin-bottom: 15px;
-}
-
-.price {
-    color: #e60000;
-    font-size: 1.2em;
-    margin: 10px 0;
 }
 
 .buy-button {
