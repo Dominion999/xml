@@ -12,8 +12,8 @@
     </div>
 
     <script>
-        function loadXMLDoc(url) {
-            return fetch(url)
+        function loadXMLDoc(filename) {
+            return fetch(filename)
                 .then(response => response.text())
                 .then(str => (new window.DOMParser()).parseFromString(str, "application/xml"));
         }
@@ -47,7 +47,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            loadXMLDoc("https://centrumkuponow.com/feed?a=2220501").then(displayProducts);
+            loadXMLDoc("aff.xml").then(displayProducts);
         });
     </script>
 </body>
