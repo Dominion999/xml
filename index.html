@@ -41,6 +41,7 @@
                 const price = product.getElementsByTagName("ns2:price")[0].textContent;
                 const currency = product.getElementsByTagName("ns2:price")[0].getAttribute("currency");
                 const imageUrl = product.getElementsByTagName("ns2:productImage")[0].textContent;
+                const productUrl = product.getElementsByTagName("ns2:productUrl")[0].textContent;
 
                 const productElement = document.createElement("div");
                 productElement.classList.add("product");
@@ -50,6 +51,7 @@
                     <img src="${imageUrl}" alt="${name}">
                     <p>${description}</p>
                     <p><strong>Cena: ${price} ${currency}</strong></p>
+                    <p><a href="${productUrl}" target="_blank">Kup teraz</a></p>
                 `;
 
                 productContainer.appendChild(productElement);
