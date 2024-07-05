@@ -38,7 +38,7 @@
                 const imageUrl = product.getElementsByTagName("imageUrl")[0]?.textContent || "";
                 const productUrl = product.getElementsByTagName("productUrl")[0]?.textContent || "#";
 
-                if (name.toLowerCase().includes(filter.toLowerCase())) {
+                if (name.toLowerCase().includes(filter.toLowerCase()) || description.toLowerCase().includes(filter.toLowerCase())) {
                     const productElement = document.createElement("div");
                     productElement.classList.add("product");
 
