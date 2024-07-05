@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Produkty ESKK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .product img {
+            max-width: 100px;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Produkty ESKK</h1>
+    <div id="products"></div>
+
+    <script>
+        function loadXMLDoc(filename) {
+            return fetch(filename)
+                .then(response => response.text())
+                .then(str => (new window.DOMParser()).parseFromString(str, "application/xml"));
+        }
+
+        function displayProducts(xml) {
+            const products = xml.getElementsByTagName("product");
+            const productContainer = document.getElementById("products");
+
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const name = product.getElementsByTagName("ns2:name")[0].textContent;
+                const description = product.getElementsByTagName("ns2:description")[0].textContent;
+                const price = product.getElementsByTagName("ns2:price")[0].textContent;
+                const currency = product.getElementsByTagName("ns2:price")[0].getAttribute("currency");
+                const imageUrl = product.getElementsByTagName("ns2:productImage")[0].textContent;
+
+                const productElement = document.createElement("div");
+                productElement.classList.add("product");
+
+                productElement.innerHTML = `
+                    <h2>${name}</h2>
+                    <img src="${imageUrl}" alt="${name}">
+                    <p>${description}</p>
+                    <p><strong>Cena: ${price} ${currency}</strong></p>
+                `;
+
+                productContainer.appendChild(productElement);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadXMLDoc("aff.xml").then(displayProducts);
+        });
+    </script>
+</body>
+</html>
