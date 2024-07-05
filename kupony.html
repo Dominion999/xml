@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kupony Promocyjne</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Kupony Promocyjne</h1>
+        <div id="coupons" class="products"></div>
+    </div>
+
+    <script>
+        function loadXMLDoc(filename) {
+            return fetch(filename)
+                .then(response => response.text())
+                .then(str => (new window.DOMParser()).parseFromString(str, "application/xml"));
+        }
+
+        function displayCoupons(xml) {
+            const products = xml.getElementsByTagName("product");
+            const productContainer = document.getElementById("coupons");
+
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const name = product.getElementsByTagName("name")[0]?.textContent || "Brak nazwy";
+                const description = product.getElementsByTagName("description")[0]?.textContent || "Brak opisu";
+                const price = product.getElementsByTagName("price")[0]?.textContent || "Cena niedostępna";
+                const currency = product.getElementsByTagName("currency")[0]?.textContent || "";
+                const imageUrl = product.getElementsByTagName("imageUrl")[0]?.textContent || "";
+                const productUrl = product.getElementsByTagName("productUrl")[0]?.textContent || "#";
+
+                const productElement = document.createElement("div");
+                productElement.classList.add("product");
+
+                productElement.innerHTML = `
+                    <h2>${name}</h2>
+                    <img src="${imageUrl}" alt="${name}">
+                    <p>${description}</p>
+                    <p class="price"><strong>${price} ${currency}</strong></p>
+                    <p><a href="${productUrl}" class="buy-button" target="_blank">Kup teraz</a></p>
+                `;
+
+                productContainer.appendChild(productElement);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadXMLDoc("kupony.xml").then(displayCoupons);
+        });
+    </script>
+</body>
+</html>
