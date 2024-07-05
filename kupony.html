@@ -8,19 +8,23 @@
 <body>
     <div class="container">
         <h1>Kupony Promocyjne</h1>
+        <input type="text" id="search" placeholder="Wyszukaj kupony...">
         <div id="coupons" class="products"></div>
     </div>
 
     <script>
+        let xmlData;
+
         function loadXMLDoc(filename) {
             return fetch(filename)
                 .then(response => response.text())
                 .then(str => (new window.DOMParser()).parseFromString(str, "application/xml"));
         }
 
-        function displayCoupons(xml) {
+        function displayCoupons(xml, filter = "") {
             const products = xml.getElementsByTagName("product");
             const productContainer = document.getElementById("coupons");
+            productContainer.innerHTML = "";
 
             for (let i = 0; i < products.length; i++) {
                 const product = products[i];
@@ -29,22 +33,32 @@
                 const imageUrl = product.getElementsByTagName("imageUrl")[0]?.textContent || "";
                 const productUrl = product.getElementsByTagName("productUrl")[0]?.textContent || "#";
 
-                const productElement = document.createElement("div");
-                productElement.classList.add("product");
+                if (name.toLowerCase().includes(filter.toLowerCase())) {
+                    const productElement = document.createElement("div");
+                    productElement.classList.add("product");
 
-                productElement.innerHTML = `
-                    <h2>${name}</h2>
-                    <img src="${imageUrl}" alt="${name}">
-                    <p>${description}</p>
-                    <p><a href="${productUrl}" class="buy-button" target="_blank">Zobacz kod</a></p>
-                `;
+                    productElement.innerHTML = `
+                        <h2>${name}</h2>
+                        <img src="${imageUrl}" alt="${name}">
+                        <p>${description}</p>
+                        <p><a href="${productUrl}" class="buy-button" target="_blank">Zobacz kod</a></p>
+                    `;
 
-                productContainer.appendChild(productElement);
+                    productContainer.appendChild(productElement);
+                }
             }
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            loadXMLDoc("kupony.xml").then(displayCoupons);
+            loadXMLDoc("kupony.xml").then(xml => {
+                xmlData = xml;
+                displayCoupons(xmlData);
+            });
+
+            document.getElementById("search").addEventListener("input", (event) => {
+                const filter = event.target.value;
+                displayCoupons(xmlData, filter);
+            });
         });
     </script>
 </body>
