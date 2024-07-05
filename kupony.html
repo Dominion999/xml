@@ -26,8 +26,6 @@
                 const product = products[i];
                 const name = product.getElementsByTagName("name")[0]?.textContent || "Brak nazwy";
                 const description = product.getElementsByTagName("description")[0]?.textContent || "Brak opisu";
-                const price = product.getElementsByTagName("price")[0]?.textContent || "Cena niedostępna";
-                const currency = product.getElementsByTagName("currency")[0]?.textContent || "";
                 const imageUrl = product.getElementsByTagName("imageUrl")[0]?.textContent || "";
                 const productUrl = product.getElementsByTagName("productUrl")[0]?.textContent || "#";
 
@@ -38,8 +36,7 @@
                     <h2>${name}</h2>
                     <img src="${imageUrl}" alt="${name}">
                     <p>${description}</p>
-                    <p class="price"><strong>${price} ${currency}</strong></p>
-                    <p><a href="${productUrl}" class="buy-button" target="_blank">Kup teraz</a></p>
+                    <p><a href="${productUrl}" class="buy-button" target="_blank">Zobacz kod</a></p>
                 `;
 
                 productContainer.appendChild(productElement);
